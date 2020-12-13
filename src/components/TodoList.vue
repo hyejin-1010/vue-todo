@@ -17,22 +17,8 @@
 
 <script>
 export default {
-  data () {
-    return {
-      todoItems: []
-    }
-  },
-  created () {
-    if (localStorage.length) {
-      for (let index = 0; index < localStorage.length; index ++) {
-        const todoKey = localStorage.key(index);
-        if (todoKey === 'loglevel:webpack-dev-server') { continue; }
-        let todoItem = localStorage.getItem(todoKey);
-        if (!todoItem) { continue; }
-        todoItem = JSON.parse(todoItem);
-        if (todoItem.item) { this.todoItems.push(todoItem); }
-      }
-    }
+  props: {
+    todoItems: Array
   },
   methods: {
     removeTodo (todoItem, index) {
