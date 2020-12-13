@@ -5,7 +5,7 @@
         :key="'todo-item-' + todoItem.item" class="shadow">
         <i class="fas fa-check checkBtn"
           :class="{'checkBtnCompleted': todoItem.completed}"
-          @click="toggleComplete(todoItem)"></i>
+          @click="toggleComplete(index)"></i>
         <span :class="{'textCompleted': todoItem.completed}">{{todoItem.item}}</span>
         <span class="removeBtn" @click="removeTodo(todoItem.item, index)">
           <i class="fas fa-trash-alt" />
@@ -24,10 +24,8 @@ export default {
     removeTodo (todoItem, index) {
       this.$emit('removeItem', todoItem, index);
     },
-    toggleComplete (todoItem) {
-      todoItem.completed = !todoItem.completed;
-      localStorage.removeItem(todoItem.item);
-      localStorage.setItem(todoItem.item, todoItem);
+    toggleComplete (index) {
+      this.$emit('toggleItem', index);
     }
   }
 }

@@ -2,7 +2,10 @@
   <div id="app">
     <TodoHeader />
     <TodoInput @addTodo="addOneItem" />
-    <TodoList :todoItems="todoItems" @removeItem="removeOneItem" />
+    <TodoList
+      :todoItems="todoItems"
+      @toggleItem="toggleOneItem"
+      @removeItem="removeOneItem" />
     <TodoFooter />
   </div>
 </template>
@@ -26,6 +29,12 @@ export default {
     removeOneItem (todoItem, index) {
       localStorage.removeItem(todoItem);
       this.todoItems.splice(index, 1);
+    },
+    toggleOneItem (index) {
+      const todoItem = this.todoItems[index];
+      todoItem.completed = !todoItem.completed;
+      localStorage.removeItem(todoItem.item);
+      localStorage.setItem(todoItem.item, JSON.stringify(todoItem));
     }
   },
   created () {
