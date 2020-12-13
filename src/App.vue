@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <TodoHeader />
-    <TodoInput />
+    <TodoInput @addTodo="addOneItem" />
     <TodoList :todoItems="todoItems" />
     <TodoFooter />
   </div>
@@ -15,6 +15,13 @@ export default {
   data () {
     return {
       todoItems: []  
+    }
+  },
+  methods: {
+    addOneItem (todoItem) {
+      const obj = { completed: false, item: todoItem };
+      localStorage.setItem(todoItem, JSON.stringify(obj));
+      this.todoItems.push(obj);
     }
   },
   created () {
