@@ -1,11 +1,11 @@
 <template>
   <div>
     <ul>
-      <li v-for="todoItem in todoItems"
+      <li v-for="(todoItem, index) in todoItems"
         :key="'todo-item-' + todoItem"
         class="shadow">
         {{todoItem}}
-        <span class="removeBtn" @click="removeTodo">
+        <span class="removeBtn" @click="removeTodo(todoItem, index)">
           <i class="fas fa-trash-alt" />
         </span>
       </li>
@@ -30,7 +30,9 @@ export default {
     }
   },
   methods: {
-    removeTodo () { // 할 일 삭제 Func
+    removeTodo (todoItem, index) { // 할 일 삭제 Func
+      localStorage.removeItem(todoItem);
+      this.todoItems.splice(index, 1);
     }
   }
 }
