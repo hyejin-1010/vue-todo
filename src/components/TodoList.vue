@@ -2,10 +2,12 @@
   <div>
     <ul>
       <li v-for="(todoItem, index) in todoItems"
-        :key="'todo-item-' + todoItem"
-        class="shadow">
-        {{todoItem}}
-        <span class="removeBtn" @click="removeTodo(todoItem, index)">
+        :key="'todo-item-' + todoItem.item" class="shadow">
+        <i class="fas fa-check checkBtn"
+          :class="{'checkBtnCompleted': todoItem.completed}"
+          @click="toggleComplete(todoItem)"></i>
+        <span :class="{'textCompleted': todoItem.completed}">{{todoItem.item}}</span>
+        <span class="removeBtn" @click="removeTodo(todoItem.item, index)">
           <i class="fas fa-trash-alt" />
         </span>
       </li>
@@ -23,16 +25,24 @@ export default {
   created () {
     if (localStorage.length) {
       for (let index = 0; index < localStorage.length; index ++) {
-        const todoItem = localStorage.key(index);
-        if (todoItem === 'loglevel:webpack-dev-server') { continue; }
-        this.todoItems.push(todoItem);
+        const todoKey = localStorage.key(index);
+        if (todoKey === 'loglevel:webpack-dev-server') { continue; }
+        let todoItem = localStorage.getItem(todoKey);
+        if (!todoItem) { continue; }
+        todoItem = JSON.parse(todoItem);
+        if (todoItem.item) { this.todoItems.push(todoItem); }
       }
     }
   },
   methods: {
-    removeTodo (todoItem, index) { // 할 일 삭제 Func
+    removeTodo (todoItem, index) {
       localStorage.removeItem(todoItem);
       this.todoItems.splice(index, 1);
+    },
+    toggleComplete (todoItem) {
+      todoItem.completed = !todoItem.completed;
+      localStorage.removeItem(todoItem.item);
+      localStorage.setItem(todoItem.item, todoItem);
     }
   }
 }
@@ -59,6 +69,10 @@ li {
   margin-right: 5px;
   line-height: 45px;
   color: #62acde;
+}
+.textCompleted {
+  color: #b3adad;
+  text-decoration-line: line-through;
 }
 .checkBtnCompleted {
   color: #b3adad;
