@@ -4,14 +4,23 @@
     <span class="addContainer" @click="addTodo">
       <i class="fas fa-plus addBtn"></i>
     </span>
+
+    <button id="show-modal" @click="showModal = true">Show Modal</button>
+    <!-- use the modal component, pass in the prop -->
+    <Modal v-if="showModal" @close="showModal = false">
+      <h3 slot="header">custom header</h3>
+    </Modal>
   </div>
 </template>
 
 <script>
+import Modal from './common/Modal'
+
 export default {
   data () {
     return {
-      newTodoItem: ""
+      newTodoItem: "",
+      showModal: false
     }
   },
   methods: {
@@ -23,6 +32,9 @@ export default {
     clearInput () {
       this.newTodoItem = '';
     }
+  },
+  components: {
+    Modal
   }
 }
 </script>
