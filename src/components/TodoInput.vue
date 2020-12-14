@@ -5,10 +5,14 @@
       <i class="fas fa-plus addBtn"></i>
     </span>
 
-    <button id="show-modal" @click="showModal = true">Show Modal</button>
-    <!-- use the modal component, pass in the prop -->
     <Modal v-if="showModal" @close="showModal = false">
-      <h3 slot="header">custom header</h3>
+      <h3 slot="header">
+        경고!
+        <i class="closeModalBtn fas fa-times" @click="showModal = false" />
+      </h3>
+      <div slot="body">
+        아무것도 입력하지 않으셨습니다.
+      </div>
     </Modal>
   </div>
 </template>
@@ -25,7 +29,7 @@ export default {
   },
   methods: {
     addTodo () {
-      if (!this.newTodoItem) { return; }
+      if (!this.newTodoItem) { return this.showModal = !this.showModal; }
       this.$emit('addTodo', this.newTodoItem);
       this.clearInput();
     },
@@ -63,5 +67,8 @@ input:focus {
 .addBtn {
   color: #fff;
   vertical-align: middle;
+}
+.closeModalBtn {
+  color: #42b983;
 }
 </style>
